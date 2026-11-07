@@ -37,7 +37,7 @@
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   width: min(100%, 1040px);
   margin: 0 auto;
   padding: 11px 16px;
@@ -50,6 +50,40 @@
 .stats article:last-child { border: 0; }
 .stats strong { color: #43994a; font-size: 21px; font-weight: 900; }
 .stats span { color: #829087; font-size: 9px; font-weight: 900; letter-spacing: .07em; }
+
+.learningChart { width:min(100%,1040px);margin:14px auto 0;padding:24px;border:1px solid var(--line);border-radius:19px;background:#fff;box-shadow:0 4px 14px #25352c08; }
+.chartHeader { display:flex;align-items:flex-end;justify-content:space-between;gap:15px; }
+.chartKicker { color:#87948b;font-size:9px;font-weight:900;letter-spacing:.12em; }
+.chartHeader h2 { margin:5px 0 0;color:#2c4835;font-size:24px;font-weight:900;letter-spacing:-.04em; }
+.legend { display:flex;gap:18px;margin:22px 0 10px;color:#65746a;font-size:11px;font-weight:800; }
+.legend span { display:flex;align-items:center;gap:6px; }
+.legend i { width:9px;height:9px;border-radius:50%; }
+.hardSegment { background:#e99376; }
+.goodSegment { background:#77bd70; }
+.easySegment { background:#78a8d3; }
+.chartRows { display:grid;gap:18px; }
+.chartRow { display:grid;grid-template-columns:140px minmax(0,1fr) 105px;align-items:center;gap:14px; }
+.chartRowLabel { display:grid;gap:3px; }
+.chartRowLabel strong { color:#354c3c;font-size:12px; }
+.chartRowLabel span { color:#87948b;font-size:10px; }
+.barTrack { display:flex;height:18px;overflow:hidden;border-radius:999px;background:#eff3ed; }
+.barTrack i { display:block;height:100%;transition:width .25s ease; }
+.chartCounts { display:grid;grid-template-columns:repeat(3,1fr);color:#65746a;font-size:11px;font-variant-numeric:tabular-nums;text-align:right; }
+.chartCounts span { text-align:right; }
+.pieGrid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px; }
+.pieCard { display:grid;justify-items:center;gap:13px;min-width:0;padding:18px 14px;border:1px solid #edf1eb;border-radius:16px;background:#fbfdf9; }
+.pieTitle { display:flex;align-items:center;gap:8px;color:#354c3c; }
+.pieTitle span { display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:#eaf4e6;color:#4e9151;font-size:16px;font-weight:800; }
+.pieTitle strong { font-size:13px; }
+.pieChart { position:relative;display:grid;place-items:center;width:142px;max-width:100%;aspect-ratio:1;border-radius:50%; }
+.pieChart::before { position:absolute;width:68%;height:68%;border-radius:50%;background:#fff;content:""; }
+.pieChart > div { z-index:1;display:grid;justify-items:center;gap:1px; }
+.pieChart > div strong { color:#2f4838;font-size:25px;font-variant-numeric:tabular-nums; }
+.pieChart > div span { color:#849087;font-size:9px;font-weight:800; }
+.pieValues { display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%; }
+.pieValues span { display:flex;align-items:center;justify-content:center;gap:4px;color:#76837a;font-size:9px;font-weight:700; }
+.pieValues i { width:7px;height:7px;border-radius:50%; }
+.pieValues b { color:#354c3c;font-size:10px;font-variant-numeric:tabular-nums; }
 
 .grid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 14px; width: min(100%, 1040px); margin: 14px auto 0; }
 .grammarCard, .quizCard, .vocabCard, .kanjiCard { min-width: 0; padding: 20px; border: 1px solid var(--line); border-radius: 19px; background: #fff; box-shadow: 0 4px 14px #25352c08; }
@@ -100,11 +134,24 @@
   .header { min-height: 38px; }
   .headerActions { gap: 7px; }
   .badge { display: none; }
-  .stats { grid-template-columns: repeat(2, 1fr); padding: 7px; }
-  .stats article { justify-content: flex-start; padding: 7px 9px; border-bottom: 1px solid var(--line); }
-  .stats article:nth-child(2) { border-right: 0; }
-  .stats article:nth-child(n+3) { border-bottom: 0; }
-  .stats span { font-size: 8px; }
+  .stats { padding: 7px; }
+  .stats article { flex-direction:column;align-items:center;gap:2px;padding:7px 4px; }
+  .stats strong { font-size:18px; }
+  .stats span { font-size:7px;text-align:center; }
+  .learningChart { margin-top:10px;padding:18px 15px; }
+  .chartHeader { align-items:flex-start;flex-direction:column;gap:5px; }
+  .chartHeader h2 { font-size:21px; }
+  .chartRow { grid-template-columns:95px minmax(0,1fr) 72px;gap:8px; }
+  .chartRowLabel strong { font-size:11px; }
+  .chartCounts { font-size:10px; }
+  .pieGrid { grid-template-columns:1fr; }
+  .pieCard { grid-template-columns:minmax(0,1fr) 120px;gap:8px;padding:12px; }
+  .pieTitle { justify-self:start; }
+  .pieTitle strong { font-size:11px; }
+  .pieTitle { grid-column:1 / -1; }
+  .pieChart { width:110px;grid-column:1;grid-row:2; }
+  .pieValues { grid-template-columns:1fr;grid-column:2;grid-row:2;gap:6px; }
+  .pieValues span { justify-content:flex-start;font-size:10px; }
   .grid { grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
   .grammarCard, .quizCard, .vocabCard, .kanjiCard { grid-column: auto; padding: 16px; }
   .wordList { grid-template-columns: 1fr 1fr; gap: 0 10px; }

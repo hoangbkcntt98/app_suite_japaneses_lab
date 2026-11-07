@@ -1,16 +1,37 @@
 import { stat, readFile } from "node:fs/promises";
 import path from "node:path";
 
+const sourceFolder = process.env.VIDEO_PATH_SOURCE_FOLDER?.trim();
+const replaceFolder = process.env.VIDEO_PATH_REPLACE_FOLDER?.trim();
 const allowedRoots = [
   path.resolve(/*turbopackIgnore: true*/ process.cwd()),
   "/var/web-data",
+  ...(sourceFolder && replaceFolder
+    ? [path.resolve(/*turbopackIgnore: true*/ replaceFolder)]
+    : []),
 ];
 
+function replaceVideoPath(input: string) {
+  if (!sourceFolder || !replaceFolder) return input;
+
+  const sourcePath = path.resolve(/*turbopackIgnore: true*/ input);
+  const normalizedSource = path.resolve(/*turbopackIgnore: true*/ sourceFolder);
+  if (sourcePath !== normalizedSource && !sourcePath.startsWith(`${normalizedSource}${path.sep}`)) {
+    return input;
+  }
+
+  return path.join(
+    /*turbopackIgnore: true*/ path.resolve(/*turbopackIgnore: true*/ replaceFolder),
+    path.relative(normalizedSource, sourcePath)
+  );
+}
+
 function resolveVideoPath(input: string) {
+  const mappedInput = replaceVideoPath(input);
   const candidate = path.resolve(
     /*turbopackIgnore: true*/ input.startsWith("/")
-      ? input
-      : path.join(/*turbopackIgnore: true*/ process.cwd(), input)
+      ? mappedInput
+      : path.join(/*turbopackIgnore: true*/ process.cwd(), mappedInput)
   );
   return allowedRoots.some((root) => candidate === root || candidate.startsWith(`${root}${path.sep}`))
     ? candidate

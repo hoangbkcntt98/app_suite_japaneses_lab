@@ -27,7 +27,7 @@ type Deck = Record<GameKey, Card[]>;
 type WordCount = number | "all";
 type AnswerResult = "correct" | "wrong" | "timeout";
 type Rating = "Hard" | "Good" | "Easy";
-type RatingFilter = Rating | "all";
+type RatingFilter = Rating | "all" | "unrated";
 
 const QUESTION_SECONDS = 20;
 const games: Game[] = [
@@ -68,12 +68,16 @@ export default function GamesClient({ deck }: { deck: Deck }) {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [reviewCount, setReviewCount] = useState(0);
   const [ratings, setRatings] = useState<Record<string, Rating>>({});
-  const [ratingFilters, setRatingFilters] = useState<Record<GameKey, RatingFilter>>({
-    words: "all", kanji: "all", grammar: "all",
+  const [ratingFilters, setRatingFilters] = useState<Record<GameKey, RatingFilter[]>>({
+    words: ["all"], kanji: ["all"], grammar: ["all"],
   });
 
-  const filteredDeck = useCallback((key: GameKey) => deck[key].filter((item) =>
-    ratingFilters[key] === "all" || ratings[`${key}:${item.id}`] === ratingFilters[key]),
+  const filteredDeck = useCallback((key: GameKey) => deck[key].filter((item) => {
+    const rating = ratings[`${key}:${item.id}`];
+    const selected = ratingFilters[key];
+    return selected.includes("all")
+      || selected.some((filter) => filter === "unrated" ? !rating : rating === filter);
+  }),
   [deck, ratingFilters, ratings]);
 
   const game = games.find((item) => item.key === active) || (active === "review" ? { name: "Ôn tập", key: "words" as const } : undefined);
@@ -167,27 +171,42 @@ export default function GamesClient({ deck }: { deck: Deck }) {
     setVideoPath(null);
   }
 
-  async function rateCard(rating: Rating) {
+  function rateCard(rating: Rating) {
     if (!card) return;
     const type = card.gameType || (active === "review" ? "words" : active);
     if (!type) return;
-    const response = await fetch(apiPath("/api/ratings"), {
+    setRatings((current) => ({ ...current, [`${type}:${card.id}`]: rating }));
+    void fetch(apiPath("/api/ratings"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ type, id: card.id, rating }),
-    });
-    if (response.ok) setRatings((current) => ({ ...current, [`${type}:${card.id}`]: rating }));
+    }).catch(() => {});
+    next();
   }
 
   function ratingFilterControl(key: GameKey) {
-    const options: RatingFilter[] = ["all", "Hard", "Good", "Easy"];
+    const options: RatingFilter[] = ["all", "unrated", "Hard", "Good", "Easy"];
     return <div className={styles.ratingFilters} role="group" aria-label="Lọc theo phân loại">
-      {options.map((rating) => <button
+      {options.map((rating) => <label
         key={rating}
-        className={ratingFilters[key] === rating ? styles.ratingFilterSelected : ""}
-        aria-pressed={ratingFilters[key] === rating}
-        onClick={() => setRatingFilters((current) => ({ ...current, [key]: rating }))}
-      >{rating === "all" ? "Tất cả level" : rating}</button>)}
+          className={ratingFilters[key].includes(rating) ? styles.ratingFilterSelected : ""}
+      >
+        <input
+          type="checkbox"
+          name={`rating-filter-${key}`}
+          value={rating}
+          checked={ratingFilters[key].includes(rating)}
+          onChange={() => setRatingFilters((current) => {
+            if (rating === "all") return { ...current, [key]: ["all"] };
+            const selected = current[key].filter((item) => item !== "all");
+            const next = selected.includes(rating)
+              ? selected.filter((item) => item !== rating)
+              : [...selected, rating];
+            return { ...current, [key]: next.length ? next : ["all"] };
+          })}
+        />
+        {rating === "all" ? "Tất cả level" : rating === "unrated" ? "Unrated" : rating}
+      </label>)}
     </div>;
   }
 
@@ -504,7 +523,7 @@ export default function GamesClient({ deck }: { deck: Deck }) {
               key={rating}
               className={`${styles[rating.toLowerCase()]} ${ratings[`${questionType}:${card.id}`] === rating ? styles.ratingActive : ""}`}
               aria-pressed={ratings[`${questionType}:${card.id}`] === rating}
-              onClick={() => void rateCard(rating)}
+              onClick={() => rateCard(rating)}
             >{rating}</button>
           ))}</div>
         </div>
