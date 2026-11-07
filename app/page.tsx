@@ -63,7 +63,7 @@ export default async function JapanesePage() {
 
       <section className={styles.learningChart} aria-labelledby="learning-chart-title">
         <div className={styles.chartHeader}>
-          <div><span className={styles.chartKicker}>TIẾN ĐỘ HỌC</span><h2 id="learning-chart-title">Đã học theo level</h2></div>
+          <div><span className={styles.chartKicker}>TIẾN ĐỘ HỌC</span></div>
         </div>
         <div className={styles.legend} aria-label="Level">
           <span><i className={styles.hardSegment} />Hard</span>

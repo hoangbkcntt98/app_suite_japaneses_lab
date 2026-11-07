@@ -17,7 +17,7 @@
 .page * { box-sizing: border-box; }
 .page a { text-decoration: none; }
 .header, .sectionTop { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.header { width: min(100%, 1040px); margin: 0 auto; min-height: 42px; }
+.header { width: min(100%, 1040px); margin: 0 auto 6px; min-height: 42px; }
 .headerActions { display: flex; align-items: center; gap: 10px; }
 .back { color: #67796c; font-size: 13px; font-weight: 700; }
 .today { padding: 7px 10px; border: 1px solid #dcebd8; border-radius: 9px; background: #fff; color: #718078; font-size: 11px; font-weight: 800; }
