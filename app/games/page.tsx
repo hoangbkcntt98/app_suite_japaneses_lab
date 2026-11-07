@@ -18,15 +18,17 @@ type Choice = {
   meaningVi?: string | null;
   meaningJa?: string | null;
   videoPath?: string | null;
+  tags?: string[];
   examples?: Example[];
   choices?: string[];
 };
 
 async function gameDeck() {
-  const [words, kanji, grammar] = await Promise.all([
+  const [words, kanji, grammar, wordTags, kanjiTags] = await Promise.all([
     pool.query<Choice>(`SELECT id::text AS id, "Word" AS label, "MeaningSource" AS answer,
         "Reading" AS reading,
         COALESCE("MeaningDestination", "Chineses") AS "meaningVi",
+        COALESCE(tags_json, '[]'::jsonb) AS tags,
         json_build_array(
           json_build_object('ja', "Example1_Source", 'vi', "Example1_Destination"),
           json_build_object('ja', "Example2_Source", 'vi', "Example2_Destination"),
@@ -44,6 +46,7 @@ async function gameDeck() {
         k."OnYomi" AS "onYomi",
         k."KunYomi" AS "kunYomi",
         k."MeaningVI" AS "meaningVi",
+        COALESCE(k.tags_json, '[]'::jsonb) AS tags,
         json_build_array(
           json_build_object('ja', k."Example1_JP", 'vi', k."Example1_VN"),
           json_build_object('ja', k."Example2_JP", 'vi', k."Example2_VN"),
@@ -84,8 +87,26 @@ async function gameDeck() {
         AND NULLIF(BTRIM(gp.pattern), '') IS NOT NULL
         AND NULLIF(BTRIM(gp.meaning_ja), '') IS NOT NULL
       ORDER BY gp.id`),
+    pool.query<{ tag: string }>(`SELECT DISTINCT tag
+      FROM anki_word w
+      CROSS JOIN LATERAL jsonb_array_elements_text(COALESCE(w.tags_json, '[]'::jsonb)) AS tags(tag)
+      WHERE NULLIF(BTRIM(tag), '') IS NOT NULL
+      ORDER BY tag`),
+    pool.query<{ tag: string }>(`SELECT DISTINCT tag
+      FROM anki_kanji k
+      CROSS JOIN LATERAL jsonb_array_elements_text(COALESCE(k.tags_json, '[]'::jsonb)) AS tags(tag)
+      WHERE NULLIF(BTRIM(tag), '') IS NOT NULL
+      ORDER BY tag`),
   ]);
-  return { words: words.rows, kanji: kanji.rows, grammar: grammar.rows };
+  return {
+    words: words.rows,
+    kanji: kanji.rows,
+    grammar: grammar.rows,
+    tagOptions: {
+      words: wordTags.rows.map(({ tag }) => tag),
+      kanji: kanjiTags.rows.map(({ tag }) => tag),
+    },
+  };
 }
 
 export default async function GamesPage() {
@@ -97,6 +118,6 @@ export default async function GamesPage() {
       <Link href="/" className={styles.back}>← Japanese Lab</Link>
       <span className={styles.badge}>GAME ROOM · 日本語</span>
     </header>
-    <GamesClient deck={deck} />
+    <GamesClient deck={deck} tagOptions={deck.tagOptions} />
   </main>;
 }

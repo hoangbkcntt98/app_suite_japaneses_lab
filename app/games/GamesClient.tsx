@@ -17,6 +17,7 @@ type Card = {
   meaningVi?: string | null;
   meaningJa?: string | null;
   videoPath?: string | null;
+  tags?: string[];
   examples?: Example[];
   choices?: string[];
 };
@@ -28,6 +29,7 @@ type WordCount = number | "all";
 type AnswerResult = "correct" | "wrong" | "timeout";
 type Rating = "Hard" | "Good" | "Easy";
 type RatingFilter = Rating | "all" | "unrated";
+type TagOptions = Record<"words" | "kanji", string[]>;
 
 const QUESTION_SECONDS = 20;
 const games: Game[] = [
@@ -45,7 +47,7 @@ function shuffled<T>(items: T[]) {
   return result;
 }
 
-export default function GamesClient({ deck }: { deck: Deck }) {
+export default function GamesClient({ deck, tagOptions }: { deck: Deck; tagOptions: TagOptions }) {
   const [active, setActive] = useState<ActiveGameKey | null>(null);
   const [wordSetupOpen, setWordSetupOpen] = useState(false);
   const [kanjiSetupOpen, setKanjiSetupOpen] = useState(false);
@@ -71,29 +73,41 @@ export default function GamesClient({ deck }: { deck: Deck }) {
   const [ratingFilters, setRatingFilters] = useState<Record<GameKey, RatingFilter[]>>({
     words: ["all"], kanji: ["all"], grammar: ["all"],
   });
+  const [tagFilters, setTagFilters] = useState<Record<"words" | "kanji", string[]>>({
+    words: [], kanji: [],
+  });
 
-  const filteredDeck = useCallback((key: GameKey) => deck[key].filter((item) => {
+  const tagFilteredDeck = useCallback((key: GameKey) => deck[key].filter((item) => {
+    const selectedTags = key === "words" || key === "kanji" ? tagFilters[key] : [];
+    return !selectedTags.length || selectedTags.some((tag) => item.tags?.includes(tag));
+  }), [deck, tagFilters]);
+  const filteredDeck = useCallback((key: GameKey) => tagFilteredDeck(key).filter((item) => {
     const rating = ratings[`${key}:${item.id}`];
     const selected = ratingFilters[key];
-    return selected.includes("all")
+    const ratingMatches = selected.includes("all")
       || selected.some((filter) => filter === "unrated" ? !rating : rating === filter);
+    return ratingMatches;
   }),
-  [deck, ratingFilters, ratings]);
+  [ratingFilters, ratings, tagFilteredDeck]);
 
   const game = games.find((item) => item.key === active) || (active === "review" ? { name: "Ôn tập", key: "words" as const } : undefined);
   const cards = roundCards;
   const card = cards[step];
   const options = useMemo(() => {
     if (!card) return [];
-    if (card.choices?.length === 4) return card.choices;
     const type = card.gameType || (active === "review" ? null : active);
     if (!type) return [card.answer];
-    const distractors = shuffled([...new Set(deck[type]
+    const tagFiltered = (type === "words" || type === "kanji") && tagFilters[type].length > 0;
+    if (!tagFiltered && card.choices?.length === 4) return card.choices;
+    const answerPool = type === "words" || type === "kanji"
+      ? tagFilteredDeck(type)
+      : deck[type];
+    const distractors = shuffled([...new Set(answerPool
       .filter((item) => item.answer !== card.answer)
       .map((item) => item.answer))])
       .slice(0, 3);
     return shuffled([card.answer, ...distractors]);
-  }, [active, card, deck]);
+  }, [active, card, deck, tagFilteredDeck, tagFilters]);
   const wordCountOptions = useMemo(() => {
     const available = filteredDeck("words").length;
     return [...new Set([5, 10, 20, 50, 100, 200, 500].filter((count) => count < available)), "all" as const];
@@ -207,6 +221,39 @@ export default function GamesClient({ deck }: { deck: Deck }) {
         />
         {rating === "all" ? "Tất cả level" : rating === "unrated" ? "Unrated" : rating}
       </label>)}
+    </div>;
+  }
+
+  function tagFilterControl(key: "words" | "kanji") {
+    const selected = tagFilters[key];
+    return <div className={styles.tagFilterSection}>
+      <span className={styles.tagFilterTitle}>Tags</span>
+      {tagOptions[key].length ? <div className={styles.tagFilters} role="group" aria-label="Lọc theo tags">
+        <label className={!selected.length ? styles.tagFilterSelected : ""}>
+          <input
+            type="checkbox"
+            checked={!selected.length}
+            onChange={() => setTagFilters((current) => ({ ...current, [key]: [] }))}
+          />
+          Tất cả tags
+        </label>
+        {tagOptions[key].map((tag) => <label
+          key={tag}
+          className={selected.includes(tag) ? styles.tagFilterSelected : ""}
+        >
+          <input
+            type="checkbox"
+            checked={selected.includes(tag)}
+            onChange={() => setTagFilters((current) => {
+              const tags = current[key].includes(tag)
+                ? current[key].filter((item) => item !== tag)
+                : [...current[key], tag];
+              return { ...current, [key]: tags };
+            })}
+          />
+          {tag}
+        </label>)}
+      </div> : <p className={styles.noTags}>Database chưa có tags.</p>}
     </div>;
   }
 
@@ -328,6 +375,7 @@ export default function GamesClient({ deck }: { deck: Deck }) {
           <h2 id="word-setup-title">Chọn độ dài vòng</h2>
           <p className={styles.setupDescription}>Chọn phân loại, thứ tự và số từ cho vòng chơi.</p>
           {ratingFilterControl("words")}
+          {tagFilterControl("words")}
           <label className={styles.timerSetting}><span>Đếm giờ mỗi câu</span><input type="checkbox" checked={timerEnabled} onChange={(event) => setTimerEnabled(event.target.checked)} /> {timerEnabled ? "Bật" : "Tắt"}</label>
           <div className={styles.orderChoices} role="group" aria-label="Thứ tự từ vựng">
             <button
@@ -368,6 +416,7 @@ export default function GamesClient({ deck }: { deck: Deck }) {
           <h2 id="kanji-setup-title">Thiết lập vòng</h2>
           <p className={styles.setupDescription}>Chọn phân loại, số câu và thứ tự từ vựng.</p>
           {ratingFilterControl("kanji")}
+          {tagFilterControl("kanji")}
           <label className={styles.timerSetting}><span>Đếm giờ mỗi câu</span><input type="checkbox" checked={timerEnabled} onChange={(event) => setTimerEnabled(event.target.checked)} /> {timerEnabled ? "Bật" : "Tắt"}</label>
           <div className={styles.orderChoices} role="group" aria-label="Thứ tự câu hỏi">
             <button
