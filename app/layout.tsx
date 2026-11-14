@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { appPath } from "@manga/lib/paths";
+import AuthGate from "../components/AuthGate";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body><AuthGate>{children}</AuthGate></body>
     </html>
   );
 }

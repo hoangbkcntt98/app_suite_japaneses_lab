@@ -296,6 +296,11 @@ export default function GamesClient({ deck, tagOptions }: { deck: Deck; tagOptio
     if (answer === card.answer) {
       setResult("correct");
       setScore((value) => value + 10);
+      void fetch(apiPath("/api/garden"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "correctAnswer" }),
+      }).catch(() => {});
       setStreak((value) => value + 1);
       if (active === "review" && card.gameType) {
         fetch(apiPath("/api/review"), {

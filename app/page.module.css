@@ -34,6 +34,18 @@
 }
 .gameLink:hover { transform: translateY(2px); box-shadow: 0 1px 0 #398f43; }
 .badge { color: #718078; font-size: 10px; font-weight: 800; letter-spacing: .09em; }
+.accountMenu { position:relative;z-index:10; }
+.menuTrigger { display:grid;align-content:center;justify-items:center;gap:4px;width:40px;height:40px;border:1px solid #dcebd8;border-radius:12px;background:#fff;cursor:pointer;list-style:none;box-shadow:0 2px 7px #25352c0c; }
+.menuTrigger::-webkit-details-marker { display:none; }
+.menuTrigger i { display:block;width:17px;height:2px;border-radius:2px;background:#3e7547;transition:transform .15s ease,opacity .15s ease; }
+.accountMenu[open] .menuTrigger i:first-child { transform:translateY(6px) rotate(45deg); }
+.accountMenu[open] .menuTrigger i:nth-child(2) { opacity:0; }
+.accountMenu[open] .menuTrigger i:last-child { transform:translateY(-6px) rotate(-45deg); }
+.menuPanel { position:absolute;top:calc(100% + 9px);right:0;display:grid;gap:12px;width:min(230px,calc(100vw - 28px));padding:15px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 12px 30px #25352c1c; }
+.menuUsername { overflow:hidden;color:#354c3c;font-size:13px;font-weight:800;text-overflow:ellipsis;white-space:nowrap; }
+.menuLogout { padding:9px 12px;border:0;border-radius:9px;background:#fff0ec;color:#a14c40;cursor:pointer;font:inherit;font-size:12px;font-weight:800;text-align:left; }
+.menuLogout:disabled { cursor:wait;opacity:.6; }
+.menuTrigger:focus-visible,.menuLogout:focus-visible { outline:3px solid #82cb74;outline-offset:3px; }
 
 .stats {
   display: grid;
@@ -156,6 +168,8 @@
   .grammarCard, .quizCard, .vocabCard, .kanjiCard { grid-column: auto; padding: 16px; }
   .wordList { grid-template-columns: 1fr 1fr; gap: 0 10px; }
 }
+
+@media(max-width:520px){.today{display:none}.menuTrigger{width:38px;height:38px}}
 
 @media (prefers-reduced-motion: reduce) {
   .gameLink, .options button { transition: none; }

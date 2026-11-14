@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { pool } from "@manga/lib/db";
+import { currentGardenUser } from "@manga/lib/auth/garden-auth";
 
 const validTypes = new Set(["words", "kanji", "grammar"]);
 const validRatings = new Set(["Hard", "Good", "Easy"]);
 
-export async function GET() {
+export async function GET(request: Request) {
+  if (!await currentGardenUser(request)) return NextResponse.json({ error: "Cần đăng nhập." }, { status: 401 });
   const { rows } = await pool.query<{ game_type: string; resource_id: string; rating: string }>(
     `SELECT game_type, resource_id, rating FROM japanese_game_ratings`,
   );
@@ -16,6 +18,7 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  if (!await currentGardenUser(request)) return NextResponse.json({ error: "Cần đăng nhập." }, { status: 401 });
   const body = await request.json().catch(() => null);
   if (!body || !validTypes.has(body.type) || typeof body.id !== "string" || !validRatings.has(body.rating)) {
     return NextResponse.json({ error: "Dữ liệu phân loại không hợp lệ." }, { status: 400 });

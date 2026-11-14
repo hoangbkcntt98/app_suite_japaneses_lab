@@ -1,5 +1,7 @@
 import { stat, readFile } from "node:fs/promises";
 import path from "node:path";
+import { NextResponse } from "next/server";
+import { currentGardenUser } from "@manga/lib/auth/garden-auth";
 
 const sourceFolder = process.env.VIDEO_PATH_SOURCE_FOLDER?.trim();
 const replaceFolder = process.env.VIDEO_PATH_REPLACE_FOLDER?.trim();
@@ -39,6 +41,9 @@ function resolveVideoPath(input: string) {
 }
 
 export async function GET(request: Request) {
+  if (!await currentGardenUser(request)) {
+    return NextResponse.json({ error: "Cần đăng nhập." }, { status: 401 });
+  }
   const requested = new URL(request.url).searchParams.get("path");
   if (!requested) return new Response("Missing video path", { status: 400 });
 

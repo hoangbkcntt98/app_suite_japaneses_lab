@@ -1,8 +1,111 @@
 .page { min-height:100vh; padding:28px clamp(20px,5vw,84px) 70px; background:#f9f8f1; color:#15231c; font-family:Arial,sans-serif; }.header { display:flex; justify-content:space-between; align-items:center; }.back { color:#28513d; font-weight:800; text-decoration:none; }.badge { color:#cb5c35; font-size:11px; font-weight:800; letter-spacing:.12em; }.badge { border:1px solid #9bb2a0; color:#54715c; border-radius:999px; padding:7px 10px; }.gameGrid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; padding-top:22px; }.gameCard { min-height:220px; padding:22px; border:0; border-radius:16px; text-align:left; color:#15231c; cursor:pointer; transition:transform .16s ease,box-shadow .16s ease; }.gameCard:hover { transform:translateY(-5px); box-shadow:0 15px 26px #1c34211e; }.gameCard span,.gameCard small,.gameCard strong,.gameCard p,.gameCard b { display:block; }.gameCard span { font:40px Georgia,serif; }.gameCard small { margin-top:18px; font-size:11px; font-weight:800; letter-spacing:.1em; }.gameCard strong { margin-top:6px; font:28px Georgia,serif; }.gameCard p { min-height:36px; line-height:1.4; }.gameCard b { margin-top:14px; }.orange { background:#f7bd55; }.green { background:#b9dcaa; }.blue { background:#b9d5e6; }.arena { max-width:720px; margin:46px auto 0; }.arenaTop { display:flex; align-items:center; gap:15px; }.exit { width:35px; height:35px; border:0; border-radius:50%; background:#e7e9e0; cursor:pointer; font-size:25px; }.progress { flex:1; height:14px; overflow:hidden; background:#e0e5d9; border-radius:999px; }.progress i { display:block; height:100%; background:#65ae63; border-radius:inherit; transition:width .25s ease; }.arenaTop span,.arenaTop b { white-space:nowrap; }.question { padding:48px 20px 30px; text-align:center; }.questionIcon { display:grid; width:85px; height:85px; place-items:center; margin:auto; border-radius:24px; font:42px Georgia,serif; }.question p { margin:24px 0 5px; color:#617269; }.question h2 { margin:0; font:clamp(48px,8vw,75px) Georgia,serif; }.question small { color:#75837a; }.answers { display:grid; gap:11px; }.answers button { display:flex; align-items:center; gap:14px; padding:16px 18px; border:2px solid #d8ded1; border-radius:12px; background:#fff; color:#26362d; cursor:pointer; font-size:16px; font-weight:700; text-align:left; }.answers button:hover:not(:disabled) { border-color:#77a878; background:#f5fbf3; }.answers i { display:grid; width:26px; height:26px; place-items:center; border-radius:7px; background:#eef0e9; color:#6a796e; font-size:12px; font-style:normal; }.answers .correct { background:#cdf0c8; border-color:#65ae63; }.answers .wrong { background:#f4c1b9; border-color:#d86558; }.feedback { display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding:18px; border-radius:12px; font-weight:800; }.feedback button,.result button { border:0; border-radius:9px; padding:11px 16px; background:#24543c; color:white; cursor:pointer; font-weight:800; }.good { background:#cdf0c8; }.bad { background:#f4d2c9; }.result { display:grid; justify-items:center; gap:10px; max-width:460px; margin:62px auto; padding:40px; border-radius:22px; background:#e4efd9; text-align:center; }.result > span { font-size:50px; }.result p { margin:0; color:#53715c; font-size:12px; font-weight:800; letter-spacing:.11em; }.result h2 { margin:0; font:46px Georgia,serif; }.result strong { color:#cf5933; font-size:34px; }.result small { margin-bottom:15px; }.result .ghost { background:transparent; color:#28513d; }.error { color:#b84e39; padding:40px; }
+.garden { margin:30px 0 8px; padding:25px; border:1px solid #dce7d7; border-radius:20px; background:linear-gradient(135deg,#f1f6e8,#fff9e8); box-shadow:0 9px 24px #2e4c2610; }
+.gardenHeading { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.gardenHeading > div > span { color:#718548; font-size:10px; font-weight:900; letter-spacing:.14em; }
+.gardenHeading h2 { margin:5px 0; color:#294333; font:500 27px Georgia,serif; }
+.gardenHeading p { margin:0; color:#6e7e72; font-size:13px; }
+.gardenTopbar { display:flex; align-items:center; justify-content:flex-end; gap:12px; margin:28px 0 -18px; }
+.gardenAccount { display:flex; align-items:center; gap:9px; color:#536a57; font-size:12px; font-weight:800; }
+.gardenAccount button { padding:8px 11px; border:1px solid #d5e1d0; border-radius:9px; background:#ffffffc9; color:#35653e; cursor:pointer; font-size:11px; font-weight:800; }
+.xpBalance { padding:10px 14px; border-radius:999px; background:#294333; color:#e5f0be; font-size:15px; }
+.gardenHeading > strong { flex:0 0 auto; padding:11px 15px; border-radius:999px; background:#294333; color:#e5f0be; font-size:16px; }
+.gardenHeaderActions { display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:9px; }
+.gardenHeaderActions > strong { flex:0 0 auto; padding:11px 15px; border-radius:999px; background:#294333; color:#e5f0be; font-size:16px; }
+.accountControl { display:flex; align-items:center; gap:8px; color:#536a57; font-size:12px; font-weight:800; }
+.accountControl button,.loginLink { padding:9px 11px; border:1px solid #d5e1d0; border-radius:9px; background:#ffffffcc; color:#35653e; cursor:pointer; font-size:11px; font-weight:800; text-decoration:none; }
+.store { margin-top:18px; border:1px solid #d6e2d1; border-radius:13px; background:#ffffff9c; }
+.storeButton { display:flex; align-items:center; gap:10px; width:100%; min-height:48px; margin-top:18px; padding:10px 14px; border:1px solid #d6e2d1; border-radius:13px; background:#ffffff9c; color:#294333; cursor:pointer; text-align:left; }
+.storeButton b { font-size:14px; }.storeButton span { color:#829080; font-size:11px; }.storeButton i { display:grid; width:26px; height:26px; place-items:center; margin-left:auto; border-radius:50%; background:#e9f1e1; color:#4c794c; font-size:17px; font-style:normal; }.storeButton:focus-visible,.storeClose:focus-visible { outline:3px solid #80af69; outline-offset:2px; }
+.storeBackdrop { position:fixed; z-index:50; inset:0; display:grid; place-items:center; padding:18px; background:#17241e99; backdrop-filter:blur(3px); }
+.storeModal { position:relative; width:min(100%,620px); max-height:calc(100dvh - 36px); overflow-y:auto; overscroll-behavior:contain; padding:26px; border:1px solid #e1ecda; border-radius:22px; background:#fff; box-shadow:0 20px 60px #15231c33; }
+.storeModal > p { margin:0; color:#718548; font-size:10px; font-weight:900; letter-spacing:.14em; }.storeModal h3 { margin:5px 36px 12px 0; color:#294333; font:500 26px Georgia,serif; }.storeClose { position:absolute; top:12px; right:14px; width:34px; height:34px; border:0; border-radius:50%; background:#f1f5ef; color:#5b6b60; cursor:pointer; font-size:23px; }
+.store summary { display:flex; align-items:center; gap:10px; min-height:48px; padding:10px 14px; color:#294333; cursor:pointer; list-style:none; }
+.store summary::-webkit-details-marker { display:none; }
+.store summary b { font-size:14px; }
+.store summary span { color:#829080; font-size:11px; }
+.store summary i { display:grid; width:26px; height:26px; place-items:center; margin-left:auto; border-radius:50%; background:#e9f1e1; color:#4c794c; font-size:17px; font-style:normal; transition:transform .2s ease; }
+.store[open] summary { border-bottom:1px solid #e5ecdf; }
+.store[open] summary i { transform:rotate(45deg); }
+.store summary:focus-visible { outline:3px solid #80af69; outline-offset:2px; }
+.seedShop { display:grid; grid-template-columns:repeat(auto-fit,minmax(165px,1fr)); gap:9px; padding:12px; }
+.seedShop button { display:grid; grid-template-columns:34px 1fr; align-items:center; column-gap:7px; min-width:160px; padding:9px 12px; border:1px solid #d6e2d1; border-radius:12px; background:#ffffffc9; color:#294333; cursor:pointer; text-align:left; }
+.seedShop button > span { grid-row:span 2; font-size:24px; }
+.seedShop button > img { grid-row:span 2; width:44px; height:44px; object-fit:contain; }
+.seedShop button b { font-size:13px; }
+.seedShop button small { margin-top:3px; color:#768477; font-size:10px; }
+.seedShop button:disabled { cursor:not-allowed; opacity:.48; }
+.plantRow { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; padding:13px; border:1px dashed #c9d9bd; border-radius:14px; background:#f7faef; }
+.plant { display:grid; justify-items:center; gap:5px; width:96px; padding:8px 5px; border-radius:11px; background:#ffffffa3; }
+.plantImage { width:78px; height:78px; object-fit:contain; }
+.plant b { color:#425b46; font-size:11px; }
+.plant small { color:#718077; font-size:9px; }
+.plant .protectedBadge { padding:3px 5px; border-radius:6px; background:#e7f4e2; color:#397d42; font-weight:800; }
+.plant i { display:block; width:76px; height:5px; overflow:hidden; border-radius:5px; background:#e1e8d9; }
+.plant em { display:block; height:100%; border-radius:inherit; background:#79ad64; transition:width .3s ease; }
+.plantActions { display:flex; gap:5px; margin-top:3px; }
+.plantActions button { display:grid; place-items:center; width:29px; height:27px; padding:2px; border:1px solid #d9e3d2; border-radius:7px; background:#fff; cursor:pointer; }
+.plantActions img { width:20px; height:20px; object-fit:contain; }
+.plantActions button:disabled { cursor:not-allowed; opacity:.35; }
+.emptyGarden { margin:auto; color:#849181; font-size:12px; }
+.gardenMessage { margin:10px 0 0; color:#438047; font-size:12px; font-weight:700; }
+.gardenNote { display:block; margin-top:12px; color:#98a092; font-size:10px; }
+@media(max-width:720px){.garden{padding:19px}.gardenTopbar{margin-top:22px}.gardenHeading{align-items:flex-start;flex-direction:column}.gardenHeading h2{font-size:24px}.gardenHeaderActions{width:100%;justify-content:space-between}.seedShop{grid-template-columns:repeat(2,minmax(0,1fr))}.seedShop button{min-width:0;padding:9px}}
+@media(max-width:420px){.seedShop{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;padding:9px}.seedShop button{grid-template-columns:30px 1fr;column-gap:5px;padding:8px}.seedShop button > img{width:34px;height:34px}.seedShop button small{font-size:9px}.plantRow{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:7px;padding:9px}.plant{width:auto}.gardenTopbar{justify-content:space-between;gap:6px}.gardenAccount{font-size:11px}.store summary{gap:7px}}
 @media(max-width:720px){.gameGrid{grid-template-columns:1fr}.gameCard{min-height:190px}.arena{margin-top:28px}.arenaTop{gap:8px}.arenaTop b{display:none}.question{padding-top:35px}.feedback{align-items:stretch;gap:12px;flex-direction:column}.feedback button{width:100%}}
 
 .gameCard:focus-visible,.answers button:focus-visible,.feedback button:focus-visible,.exit:focus-visible,.setupPanel button:focus-visible,.answerModal button:focus-visible { outline:3px solid #48964e;outline-offset:3px; }
 .answers button { overflow-wrap:anywhere; }
+.headerActions { display:flex;align-items:center;justify-content:flex-end;gap:10px; }
+.gameLink { display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 15px;border:0;border-radius:12px;background:#58b957;box-shadow:0 3px 0 #398f43;color:#fff;font-size:13px;font-weight:800;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease; }
+.gameLink:hover { transform:translateY(2px);box-shadow:0 1px 0 #398f43; }
+.gameLink:focus-visible,.back:focus-visible { outline:3px solid #82cb74;outline-offset:3px; }
+@media(max-width:520px){.page{padding:18px 14px 42px}.header{gap:10px}.headerActions{gap:6px}.headerActions .badge{display:none}}
+.landGrid { display:grid;grid-template-columns:repeat(auto-fill,minmax(116px,1fr));gap:12px;margin-top:18px;padding:14px;border:1px dashed #c9d9bd;border-radius:14px;background:#f7faef; }
+.landPricingNote { margin:16px 0 -8px;color:#718078;font-size:11px;font-weight:700;line-height:1.5; }
+.landPagination { display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;color:#718078;font-size:11px;font-weight:800; }
+.landPagination button { padding:7px 10px;border:1px solid #d5e1d0;border-radius:8px;background:#fff;color:#35653e;cursor:pointer;font:inherit; }
+.landPagination button:disabled { cursor:not-allowed;opacity:.45; }
+.lockedLand,.emptyLand,.plantedLand { position:relative;display:grid;justify-items:center;align-content:start;gap:4px;min-width:0;min-height:145px;padding:8px 5px;box-sizing:border-box;border-radius:12px;text-align:center; }
+.lockedLand { overflow:hidden;border:1px solid #d4dece;background:#e8eddf;color:#566553;cursor:pointer;transition:transform .15s ease,border-color .15s ease; }
+.lockedLand:hover:not(:disabled) { transform:translateY(-2px);border-color:#8fac80; }
+.lockedLand:disabled { cursor:not-allowed;opacity:.6; }
+.lockedLand > img,.emptyLand > img { width:min(104px,100%);height:auto;aspect-ratio:1;object-fit:contain; }
+.lockedLand span,.emptyLand span { font-size:10px;font-weight:800; }
+.emptyLand { color:#6a7c68; }
+.emptyLandTrigger { display:grid;justify-items:center;align-content:start;gap:4px;width:100%;min-width:0;overflow:hidden;padding:0;border:0;background:transparent;color:inherit;cursor:pointer;font:inherit; }
+.emptyLandTrigger:focus-visible { outline:3px solid #82cb74;outline-offset:2px;border-radius:9px; }
+.emptyLandTrigger img { width:min(104px,100%);height:auto;aspect-ratio:1;object-fit:contain; }
+.plantedLand { min-height:145px;padding:5px;background:#ffffffa3;color:#425b46; }
+.plantedLandTrigger { position:relative;display:grid;justify-items:center;align-content:start;gap:4px;width:100%;min-width:0;min-height:134px;overflow:hidden;padding:0;border:0;background:transparent;color:inherit;cursor:pointer;font:inherit;text-align:center; }
+.plantedLandTrigger:focus-visible { outline:3px solid #82cb74;outline-offset:2px;border-radius:9px; }
+.lockedLand > img,.emptyLandTrigger > img,.plantedLandTrigger > img { display:block;max-width:100%;min-width:0; }
+.plantedLandTrigger > img { position:relative;z-index:1;width:min(104px,100%);height:auto;aspect-ratio:1;margin:0;object-fit:contain; }
+.plantedLand b { position:relative;z-index:1;display:-webkit-box;height:2.6em;overflow:hidden;font-size:11px;line-height:1.3;-webkit-box-orient:vertical;-webkit-box-pack:center;-webkit-line-clamp:2; }
+.plantedLand small { position:relative;z-index:1;color:#718077;font-size:9px; }
+.plantedLand .protectedBadge { padding:3px 5px;border-radius:6px;background:#e7f4e2;color:#397d42;font-weight:800; }
+.growthTrack { position:relative;z-index:1;display:block;width:76px;height:5px;overflow:hidden;border-radius:5px;background:#e1e8d9; }
+.landProgressSpacer { display:block;width:76px;height:5px;visibility:hidden; }
+.landDateSpacer { display:block;width:76px;height:11px;visibility:hidden; }
+.plantedDate { position:relative;z-index:1;display:block;height:11px;color:#829080;font-size:9px;line-height:11px; }
+.plantedLandTrigger > .growthTrack { flex:0 0 5px; }
+.growthTrack em { display:block;height:100%;border-radius:inherit;background:#79ad64;transition:width .3s ease; }
+.plantedLand .plantActions { position:absolute;z-index:5;top:51px;left:50%;display:grid;grid-template-columns:repeat(3,38px);gap:5px;width:max-content;padding:7px;transform:translateX(-50%);border:1px solid #d6e2d1;border-radius:11px;background:#fffffff0;box-shadow:0 7px 18px #25352c30;backdrop-filter:blur(3px); }
+.plantedLand .plantStatus { grid-column:1 / -1;display:grid;grid-template-columns:1fr auto;align-items:center;gap:5px 8px;padding:1px 2px 3px;color:#526158;font-size:9px;font-weight:800;text-align:left; }
+.plantedLand .plantStatus .protectedBadge { grid-column:1 / -1;justify-self:start; }
+.plantedLand .plantStatus .growthTrack { grid-column:1 / -1;width:100%; }
+.plantedLand .plantActions button { display:grid;place-items:center;width:38px;height:38px;padding:4px;border:1px solid #e5ece0;border-radius:9px;background:#fbfdf9;color:#354c3c;cursor:pointer; }
+.plantedLand .plantActions .plantActionsClose { grid-column:1 / -1;justify-self:end;width:24px;height:22px;padding:0;border:0;background:transparent;color:#718078;font-size:20px;line-height:1; }
+.plantedLand .plantActions .plantActionsClose:hover { background:#f1f5ef;color:#294333; }
+.plantedLand .plantActions button:disabled { cursor:not-allowed;opacity:.42; }
+.plantedLand .plantActions img { width:28px;height:28px;object-fit:contain; }
+.seedPlantMenu { position:absolute;z-index:5;top:50%;left:50%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;width:min(230px,82vw);padding:7px;transform:translate(-50%,-50%);border:1px solid #d6e2d1;border-radius:11px;background:#fffffff2;box-shadow:0 7px 18px #25352c30;backdrop-filter:blur(3px); }
+.seedPlantMenu button { display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:4px;min-width:0;min-height:40px;padding:4px;border:1px solid #e5ece0;border-radius:8px;background:#fbfdf9;color:#354c3c;cursor:pointer;font:inherit;font-size:9px;font-weight:800;text-align:left; }
+.seedPlantMenu button:disabled { cursor:not-allowed;opacity:.42; }
+.seedPlantMenu img { width:30px;height:30px;object-fit:contain; }
+.seedPlantMenu button span { overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.seedPlantMenu button small { color:#829080;font-size:9px; }
+.seedPlantMenu .seedPlantMenuClose { grid-column:1 / -1;justify-self:end;display:grid;place-items:center;width:24px;height:22px;min-height:0;padding:0;border:0;background:transparent;color:#718078;font-size:20px;line-height:1;text-align:center; }
+@media(max-width:520px){.landGrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:8px}.lockedLand,.emptyLand,.plantedLand{min-height:125px;padding:5px 2px}.lockedLand > img,.emptyLandTrigger img,.plantedLandTrigger > img{width:100%;max-width:82px;height:auto;aspect-ratio:1}.plantedLandTrigger{min-height:114px}.plantedLand .plantActions{top:40px;grid-template-columns:repeat(3,34px);gap:4px;padding:6px}.plantedLand .plantActions button{width:34px;height:34px}.plantedLand .plantActions .plantActionsClose{width:24px;height:20px}.plantedLand .plantActions img{width:25px;height:25px}.seedPlantMenu{width:min(230px,88vw)}}
 .timerRow { display:grid; grid-template-columns:auto auto 1fr; align-items:center; gap:10px; margin:22px 0 0 50px; color:#75837a; font-size:12px; font-weight:700; }
 .timerRow strong { min-width:32px; color:#397f42; font-size:16px; text-align:right; }
 .timerRow .timerUrgent { color:#c44b38; }
@@ -10,7 +113,7 @@
 .timerTrack i { display:block; height:100%; border-radius:inherit; background:#65ae63; transition:width 1s linear; }
 .timerTrack .timerTrackUrgent { background:#d9614b; }
 .setupBackdrop,.answerBackdrop { position:fixed;z-index:20;inset:0;display:grid;place-items:center;padding:18px;background:#17241e99;backdrop-filter:blur(3px); }
-.setupPanel { position:relative;width:min(100%,440px);padding:30px;border:1px solid #e1ecda;border-radius:22px;background:#fff;box-shadow:0 20px 60px #15231c33;text-align:center; }
+.setupPanel { position:relative;width:min(100%,440px);max-height:calc(100dvh - 36px);overflow-y:auto;overscroll-behavior:contain;padding:30px;border:1px solid #e1ecda;border-radius:22px;background:#fff;box-shadow:0 20px 60px #15231c33;text-align:center; }
 .setupClose { position:absolute;top:12px;right:14px;width:34px;height:34px;border:0;border-radius:50%;background:#f1f5ef;color:#5b6b60;cursor:pointer;font-size:23px; }
 .setupIcon { display:grid;width:50px;height:50px;place-items:center;margin:0 auto 12px;border-radius:16px;background:#fff0c9;font-size:26px; }
 .setupKicker { margin:0;color:#b9781c;font-size:10px;font-weight:900;letter-spacing:.12em; }

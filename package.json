@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3003",
-    "build": "next build --webpack && pm2 restart japanese-lab",
+    "build": "next build --webpack && pm2 restart japanese-lab --update-env",
     "start": "next start -H 127.0.0.1 -p ${PORT:-3000}",
     "lint": "eslint"
   },

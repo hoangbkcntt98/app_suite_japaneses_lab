@@ -116,7 +116,10 @@ export default async function GamesPage() {
   return <main className={styles.page}>
     <header className={styles.header}>
       <Link href="/" className={styles.back}>← Japanese Lab</Link>
-      <span className={styles.badge}>GAME ROOM · 日本語</span>
+      <div className={styles.headerActions}>
+        <Link href="/garden" className={styles.gameLink}>🌱 Khu vườn</Link>
+        <span className={styles.badge}>GAME ROOM · 日本語</span>
+      </div>
     </header>
     <GamesClient deck={deck} tagOptions={deck.tagOptions} />
   </main>;

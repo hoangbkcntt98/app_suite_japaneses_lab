@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { pool } from "@manga/lib/db";
+import DashboardMenu from "./DashboardMenu";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
@@ -50,8 +51,10 @@ export default async function JapanesePage() {
         <Link href="/" className={styles.back}>← Northstar</Link>
         <div className={styles.headerActions}>
           <span className={styles.today}>{new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "short" }).format(new Date())}</span>
+          <Link href="/garden" className={styles.gameLink}>🌱 Khu vườn</Link>
           <Link href="/games" className={styles.gameLink}>🎮 Chơi game</Link>
           <span className={styles.badge}>日本語 · DAILY LAB</span>
+          <DashboardMenu />
         </div>
       </header>
 
